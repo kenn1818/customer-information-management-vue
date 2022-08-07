@@ -164,20 +164,19 @@ export default {
             }
             });
         } catch (err) {
-            console.log(err)
-            let error = err.response.data.error.toString();
-            let errorArray = error.split(",")
-            errorArray.forEach(element => {
-            this.errMsg = element.toString()
-
             this.$notify({
-                message: this.errMsg,
+                message: err.code,
                 icon: "now-ui-icons travel_info",
                 horizontalAlign: "center",
                 verticalAlign: "top",
                 type: "danger"
-            });
-            });
+            })
+            swal({
+              title: err.code,
+              buttonsStyling: false,
+              type: "error",
+              confirmButtonClass: "btn btn-success btn-fill"
+            })
         }
       }
     }

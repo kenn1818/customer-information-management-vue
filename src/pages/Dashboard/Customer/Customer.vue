@@ -261,15 +261,32 @@ export default {
         buttonsStyling: false
       }).then(async result => {
         if (result.value) {
-          await Customer.deleteCustomer(row.id);
-          this.searchCustomerData()
-          swal({
-            title: "Deleted!",
-            text: `${row.name} has been deleted.`,
-            type: "success",
-            confirmButtonClass: "btn btn-success btn-fill",
-            buttonsStyling: false
-          });
+          try {
+            await Customer.deleteCustomer(row.id);
+            this.searchCustomerData()
+            swal({
+              title: "Deleted!",
+              text: `${row.name} has been deleted.`,
+              type: "success",
+              confirmButtonClass: "btn btn-success btn-fill",
+              buttonsStyling: false
+            })
+          } catch (errr){
+            this.$notify({
+                message: err.code,
+                icon: "now-ui-icons travel_info",
+                horizontalAlign: "center",
+                verticalAlign: "top",
+                type: "danger"
+            })
+            swal({
+              title: err.code,
+              buttonsStyling: false,
+              type: "error",
+              confirmButtonClass: "btn btn-success btn-fill"
+            })
+          }
+          
         } else {
           swal({
             title: "Cancelled",
